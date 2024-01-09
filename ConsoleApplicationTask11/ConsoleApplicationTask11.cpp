@@ -41,7 +41,7 @@ int main() {
     std::cout << "Множество 1: ";
     set1.printSet();
 
-    set1.addElementAt(4, 1);
+    set1.addElementAt(4, 3);
     std::cout << "Множество 1 после добавления элемента 4 на позицию 1: ";
     set1.printSet();
 

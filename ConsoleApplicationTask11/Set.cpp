@@ -1,67 +1,76 @@
 #include "Set.h"
 #include <iostream>
 
-Set::Set() {
-    capacity = 10;
-    size = 0;
-    elements = new int[capacity];
-}
+Set::Set() : elements(nullptr), size(0), capacity(0) {}
 
 Set::~Set() {
     delete[] elements;
 }
 
 void Set::addElement(int element) {
-    if (size == capacity) {
-        capacity *= 2;
-        int* newElements = new int[capacity];
-        for (int i = 0; i < size; ++i) {
-            newElements[i] = elements[i];
+    if (!contains(element)) {
+        if (size == capacity) {
+            int newCapacity = (capacity == 0) ? 1 : capacity * 2;
+            int* newElements = new int[newCapacity];
+            for (int i = 0; i < size; i++) {
+                newElements[i] = elements[i];
+            }
+            delete[] elements;
+            elements = newElements;
+            capacity = newCapacity;
         }
-        delete[] elements;
-        elements = newElements;
+        elements[size] = element;
+        size++;
     }
-    elements[size++] = element;
 }
 
 void Set::addElementAt(int element, int position) {
     if (position < 0 || position > size) {
-        std::cout << "Некорректная позиция" << std::endl;
+        std::cout << "Invalid position." << std::endl;
         return;
     }
 
-    if (size == capacity) {
-        capacity *= 2;
-        int* newElements = new int[capacity];
-        for (int i = 0; i < position; ++i) {
-            newElements[i] = elements[i];
+    if (!contains(element)) {
+        if (size == capacity) {
+            int newCapacity = (capacity == 0) ? 1 : capacity * 2;
+            int* newElements = new int[newCapacity];
+            for (int i = 0; i < position; i++) {
+                newElements[i] = elements[i];
+            }
+            newElements[position] = element;
+            for (int i = position; i < size; i++) {
+                newElements[i + 1] = elements[i];
+            }
+            delete[] elements;
+            elements = newElements;
+            capacity = newCapacity;
+            size++;
         }
-        newElements[position] = element;
-        for (int i = position; i < size; ++i) {
-            newElements[i + 1] = elements[i];
+        else {
+            for (int i = size; i > position; i--) {
+                elements[i] = elements[i - 1];
+            }
+            elements[position] = element;
+            size++;
         }
-        delete[] elements;
-        elements = newElements;
     }
-    else {
-        for (int i = size; i > position; --i) {
-            elements[i] = elements[i - 1];
-        }
-        elements[position] = element;
-    }
-    size++;
 }
 
 void Set::removeElement(int element) {
+    if (size == 0) {
+        return;
+    }
+
     int index = -1;
-    for (int i = 0; i < size; ++i) {
+    for (int i = 0; i < size; i++) {
         if (elements[i] == element) {
             index = i;
             break;
         }
     }
+
     if (index != -1) {
-        for (int i = index; i < size - 1; ++i) {
+        for (int i = index; i < size - 1; i++) {
             elements[i] = elements[i + 1];
         }
         size--;
@@ -70,17 +79,18 @@ void Set::removeElement(int element) {
 
 void Set::removeElementAt(int position) {
     if (position < 0 || position >= size) {
-        std::cout << "Некорректная позиция" << std::endl;
+        std::cout << "Invalid position." << std::endl;
         return;
     }
-    for (int i = position; i < size - 1; ++i) {
+
+    for (int i = position; i < size - 1; i++) {
         elements[i] = elements[i + 1];
     }
     size--;
 }
 
 bool Set::contains(int element) const {
-    for (int i = 0; i < size; ++i) {
+    for (int i = 0; i < size; i++) {
         if (elements[i] == element) {
             return true;
         }
@@ -90,7 +100,7 @@ bool Set::contains(int element) const {
 
 void Set::printSet() const {
     std::cout << "{ ";
-    for (int i = 0; i < size; ++i) {
+    for (int i = 0; i < size; i++) {
         std::cout << elements[i] << " ";
     }
     std::cout << "}" << std::endl;
@@ -98,25 +108,21 @@ void Set::printSet() const {
 
 Set Set::intersection(const Set& other) const {
     Set result;
-
-    for (int i = 0; i < size; ++i) {
+    for (int i = 0; i < size; i++) {
         if (other.contains(elements[i])) {
             result.addElement(elements[i]);
         }
     }
-
     return result;
 }
 
 Set Set::difference(const Set& other) const {
     Set result;
-
-    for (int i = 0; i < size; ++i) {
+    for (int i = 0; i < size; i++) {
         if (!other.contains(elements[i])) {
             result.addElement(elements[i]);
         }
     }
-
     return result;
 }
 
