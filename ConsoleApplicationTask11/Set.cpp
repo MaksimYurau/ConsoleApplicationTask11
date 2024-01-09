@@ -119,3 +119,143 @@ Set Set::difference(const Set& other) const {
 
     return result;
 }
+
+
+/*
+#include "Set.h"
+#include <iostream>
+
+Set::Set() : top(nullptr) {}
+
+Set::~Set() {
+    while (top != nullptr) {
+        Node* temp = top;
+        top = top->next;
+        delete temp;
+    }
+}
+
+void Set::addElement(int element) {
+    if (!contains(element)) {
+        Node* newNode = new Node(element);
+        newNode->next = top;
+        top = newNode;
+    }
+}
+
+void Set::addElementAt(int element, int position) {
+    if (position <= 0) {
+        addElement(element);
+        return;
+    }
+
+    int count = 0;
+    Node* current = top;
+    while (current != nullptr && count < position - 1) {
+        current = current->next;
+        count++;
+    }
+
+    if (current != nullptr) {
+        Node* newNode = new Node(element);
+        newNode->next = current->next;
+        current->next = newNode;
+    }
+}
+
+void Set::removeElement(int element) {
+    if (top == nullptr) {
+        return;
+    }
+
+    // If the element to be removed is at the top
+    if (top->data == element) {
+        Node* temp = top;
+        top = top->next;
+        delete temp;
+        return;
+    }
+
+    Node* current = top;
+    while (current->next != nullptr && current->next->data != element) {
+        current = current->next;
+    }
+
+    if (current->next != nullptr) {
+        Node* temp = current->next;
+        current->next = current->next->next;
+        delete temp;
+    }
+}
+
+void Set::removeElementAt(int position) {
+    if (position <= 0 || top == nullptr) {
+        return;
+    }
+
+    if (position == 1) {
+        Node* temp = top;
+        top = top->next;
+        delete temp;
+        return;
+    }
+
+    int count = 1;
+    Node* current = top;
+    while (current->next != nullptr && count < position - 1) {
+        current = current->next;
+        count++;
+    }
+
+    if (current->next != nullptr) {
+        Node* temp = current->next;
+        current->next = current->next->next;
+        delete temp;
+    }
+}
+
+bool Set::contains(int element) const {
+    Node* current = top;
+    while (current != nullptr) {
+        if (current->data == element) {
+            return true;
+        }
+        current = current->next;
+    }
+    return false;
+}
+
+void Set::printSet() const {
+    Node* current = top;
+    std::cout << "{ ";
+    while (current != nullptr) {
+        std::cout << current->data << " ";
+        current = current->next;
+    }
+    std::cout << "}" << std::endl;
+}
+
+Set Set::intersection(const Set& other) const {
+    Set result;
+    Node* current = top;
+    while (current != nullptr) {
+        if (other.contains(current->data)) {
+            result.addElement(current->data);
+        }
+        current = current->next;
+    }
+    return result;
+}
+
+Set Set::difference(const Set& other) const {
+    Set result;
+    Node* current = top;
+    while (current != nullptr) {
+        if (!other.contains(current->data)) {
+            result.addElement(current->data);
+        }
+        current = current->next;
+    }
+    return result;
+}
+*/

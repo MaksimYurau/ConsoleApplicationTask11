@@ -10,9 +10,11 @@ int main() {
     set1.addElement(0);
     set1.addElement(2);
     set1.addElement(3);
+    set1.addElement(3);
 
     set2.addElement(2);
     set2.addElement(3);
+    set2.addElement(4);
     set2.addElement(4);
 
     std::cout << "Множество 1: ";
