@@ -14,7 +14,9 @@ public:
     ~Set();
 
     void addElement(int element);
+    void addElementAt(int element, int position);
     void removeElement(int element);
+    void removeElementAt(int position);
     bool contains(int element) const;
     void printSet() const;
 

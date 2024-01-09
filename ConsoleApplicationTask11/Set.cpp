@@ -24,6 +24,34 @@ void Set::addElement(int element) {
     elements[size++] = element;
 }
 
+void Set::addElementAt(int element, int position) {
+    if (position < 0 || position > size) {
+        std::cout << "Некорректная позиция" << std::endl;
+        return;
+    }
+
+    if (size == capacity) {
+        capacity *= 2;
+        int* newElements = new int[capacity];
+        for (int i = 0; i < position; ++i) {
+            newElements[i] = elements[i];
+        }
+        newElements[position] = element;
+        for (int i = position; i < size; ++i) {
+            newElements[i + 1] = elements[i];
+        }
+        delete[] elements;
+        elements = newElements;
+    }
+    else {
+        for (int i = size; i > position; --i) {
+            elements[i] = elements[i - 1];
+        }
+        elements[position] = element;
+    }
+    size++;
+}
+
 void Set::removeElement(int element) {
     int index = -1;
     for (int i = 0; i < size; ++i) {
@@ -38,6 +66,17 @@ void Set::removeElement(int element) {
         }
         size--;
     }
+}
+
+void Set::removeElementAt(int position) {
+    if (position < 0 || position >= size) {
+        std::cout << "Некорректная позиция" << std::endl;
+        return;
+    }
+    for (int i = position; i < size - 1; ++i) {
+        elements[i] = elements[i + 1];
+    }
+    size--;
 }
 
 bool Set::contains(int element) const {

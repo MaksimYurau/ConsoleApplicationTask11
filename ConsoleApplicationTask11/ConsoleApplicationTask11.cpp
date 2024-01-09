@@ -39,6 +39,14 @@ int main() {
     std::cout << "Множество 1: ";
     set1.printSet();
 
+    set1.addElementAt(4, 1);
+    std::cout << "Множество 1 после добавления элемента 4 на позицию 1: ";
+    set1.printSet();
+
+    set2.removeElementAt(0);
+    std::cout << "Множество 2 после удаления элемента на позиции 0: ";
+    set2.printSet();
+
     std::cout << std::endl;
 
     system("pause");
